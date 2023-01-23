@@ -81,6 +81,7 @@ class Game:
             self.obstacley5 = Obstacle(self, (1400, 680), (0, 0), points=[(-45, 45), (-45, 55), (55, 45), (55, 55)])
 
     def doplnek(self):
+        #funkce nakreslí jamky a míčky každý level
         if self.level == 1:
             self.playground = Playground(self)
             self.ball = Ball(self, (1500, 700))
@@ -101,40 +102,37 @@ class Game:
 
     def events(self):
         self.events_list = pg.event.get()
-
+        #funkce zajistí ať hra jde vypnout
         for event in self.events_list:
             if event.type == pg.QUIT:
-                self.screen.fill(WHITE)
-                self.screen.blit(self.textlost, self.textRect)
-                pg.display.update()
                 self.running = False
 
     def update(self):
         if self.level <= self.maxlevel and self.strokes <= self.maxstrokes:
-
+            #vykreslení hřiště
             self.screen.fill(GREEN)
             self.clock.tick(FPS)
             self.ball.update(self.events_list)
             self.pit.update(self.events_list)
             self.space.debug_draw(self.draw_options)
-
+            # přidání informace o počtu zbyvajích pokusů
             self.textstrokes = self.fonttries.render("Strokes:{}/15".format(self.strokes), False, 'RED')
             self.rectStrokes = self.textstrokes.get_rect()
             self.rectStrokes.bottomright = (SCREEN_WIDTH - 100, SCREEN_HEIGHT - 850)
             self.screen.blit(self.textstrokes, self.rectStrokes)
-
+            #přidání informace o levelu
             self.textlevel = self.fonttries.render("Level: {}/3".format(self.level), False, 'RED')
             self.rectLevel = self.textlevel.get_rect()
             self.rectLevel.bottomright = (SCREEN_WIDTH - 1400, SCREEN_HEIGHT - 850)
             self.screen.blit(self.textlevel, self.rectLevel)
             pg.display.update()
-
+        #funkce když prohrajeme nám to oznámí
         elif self.level <= self.maxlevel and self.strokes >= self.maxstrokes:
             self.screen.fill(GREEN)
             self.clock.tick(FPS)
             self.screen.blit(self.textlost, self.textRect)
             pg.display.update()
-
+        #funkce když vyhrajeme nám to oznámí
         else:
             self.screen.fill(GREEN)
             self.clock.tick(FPS)
@@ -142,31 +140,35 @@ class Game:
             pg.display.update()
 
     def run(self):
+        # funkce nakreslí první level
         self.doplnek()
         self.enviroment()
 
         while self.running:
             for _ in range(10):
                 self.space.step(self.dt / 10)
+                #funkce zajistí ať se proces nezastaví
                 if self.running == True:
                     self.events()
                     self.update()
 
             if self.uroven == False:
                 if self.pit.levelchange() == 2:
-
+                    # funkce přidá překážky do prvního levelu a tím vznikne level 2
                     self.enviroment()
                     self.doplnek()
                     self.pit.levelchange()
                     self.uroven = True
 
                 elif self.pit.levelchange() == 3:
+                    # funkce přidá překážky do prvního a druhého levelu a tím vznikne level 3
                     self.enviroment()
                     self.doplnek()
                     self.pit.levelchange()
                     self.uroven = True
 
 def main():
+    #vyvolání funkcí pro nakreslení všeho
     g = Game()
     g.run()
 
