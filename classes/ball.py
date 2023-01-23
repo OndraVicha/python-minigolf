@@ -45,13 +45,3 @@ class Ball(pg.sprite.Sprite):
                     self.body.apply_force_at_local_point(force * self.speed)
                     self.pre_pos = None
                     self.game.strokes += 1
-                    a = "Pokus "
-                    b = self.game.strokes
-                    print(a,b)
-
-
-
-
-
-
-
