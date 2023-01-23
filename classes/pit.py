@@ -23,8 +23,6 @@ class Pit:
         if distance < self.radius - ball.radius:
             self.game.points += 1
             self.game.level += 1
-            print(self.game.level,  "level")
-            print(self.game.points,  "pocet bodu")
         return self.game.level
 
     def update(self, events_list):
@@ -38,8 +36,6 @@ class Pit:
             self.game.screen.fill(GREEN)
             self.game.points += 1
             self.game.level += 1
-            print(self.game.level, "level")
-            print(self.game.points, "pocet bodu")
             self.game.uroven = False
 
         else:
