@@ -148,7 +148,6 @@ class Game:
         while self.running:
             for _ in range(10):
                 self.space.step(self.dt / 10)
-                # self.space.step(self.dt)
                 if self.running == True:
                     self.events()
                     self.update()
